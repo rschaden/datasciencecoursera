@@ -1,4 +1,4 @@
-best <- function(state, outcome) {
+rankhospital <- function(state, outcome, num = "best") {
     data <- read.csv("outcome-of-care-measures.csv", colClasses = "character")
     filtered.by.state = subset(data, data$State == state)
     
@@ -13,9 +13,14 @@ best <- function(state, outcome) {
     }
     
     outcome.column <- outcome.columns[match(outcome, valid.outcomes)]
-    
     filtered.by.state[, outcome.column] <- as.numeric(filtered.by.state[, outcome.column])
     ordered.by.outcome <- filtered.by.state[order(filtered.by.state[, outcome.column], filtered.by.state[, 2]), ]
     
-    ordered.by.outcome$Hospital.Name[1]
+    if(num == "best") {
+        num <- 1
+    } else if(num == "worst") {
+        num <- sum(!is.na(ordered.by.outcome[, outcome.column]))
+    }
+    
+    ordered.by.outcome$Hospital.Name[num]
 }
