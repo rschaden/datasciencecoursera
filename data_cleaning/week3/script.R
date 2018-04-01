@@ -77,8 +77,7 @@ question4 <- function() {
 
 question5 <- function()
 {
-    mergedData <-
-        merge(gdp, education, by.x = "X", by.y = "CountryCode")
+    mergedData <- mergedGDPEducationData()
     
     mergedData$gdp.quantile <- cut(mergedData$X.1, 5)
     table(mergedData$Income.Group, mergedData$gdp.quantile)
